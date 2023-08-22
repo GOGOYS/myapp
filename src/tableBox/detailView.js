@@ -1,6 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import file_img from '../images/icon/file_img.png';
+
 
 const width20 = {
     width : "20%"
@@ -9,8 +11,14 @@ const width30 = {
     width : "30%"
 }
 
-function DetailView(){
+function DetailView({listData}){
+
+    const [searchParams, setSearchParams] = useSearchParams();
+    const num = Number(searchParams.get('num'));
+    const dataView = listData[num-1];
     const movePage = useNavigate();
+
+    const listSize = listData.length;
 
     function goTable(){
         movePage('/');
@@ -18,12 +26,13 @@ function DetailView(){
 
     function goDelete(){
         if(window.confirm('삭제하시겠습니까?')){
+            listData.splice(num-1,1);
             movePage('/');
         }
     }
 
-    function goForm(){
-        movePage('/form.do');
+    const goForm = (num) => {
+        movePage('/form.do?num='+num+'');
     }
 
     const [countY, setCountY] = useState(0);
@@ -53,26 +62,26 @@ function DetailView(){
                 <tbody>
                     <tr>
                         <th scope="row">제목</th>
-                        <td colspan="3">리액트 공부 아자아자</td>
+                        <td colspan="3">{dataView.title}</td>
                     </tr>
                     <tr>
                         <th scope="row">작성자</th>
-                        <td>고영승</td>
+                        <td>{dataView.regId}</td>
                         <th scope="row">작성일</th>
-                        <td>2023.08.20</td>
+                        <td>{dataView.regDate}</td>
                     </tr>
                     <tr>
                         <td colspan="4">
                             <br/>
-                            리액트 공부 웅장하다
-                            <div class="likeit">
-                            <span class="like">
+                            {dataView.content}
+                            <div className="likeit">
+                            <span className="like">
                                 <input type="radio" name="radio01" id="radio01_1" onClick={handleClickY}/><label for="radio01_1">추천</label>
-                                <span class="num">{countY}</span>
+                                <span className="num">{countY}</span>
                             </span>
-                            <span class="dislike">
+                            <span className="dislike">
                                 <input type="radio" name="radio01" id="radio01_2" onClick={handleClickN}/><label for="radio01_2">반대</label>
-                                <span class="num">{countN}</span>
+                                <span className="num">{countN}</span>
                             </span>
                             </div>
                         </td>
@@ -80,7 +89,7 @@ function DetailView(){
                     <tr>
                         <th scope="row">첨부파일</th>
                         <td colspan="3">
-                            <ul class="file_li">
+                            <ul className="file_li">
                                 <li><a href="javascript:void(0);"><img src={file_img} alt=""/>첨부파일</a></li>
                                 <li><a href="javascript:void(0);"><img src={file_img} alt=""/>첨부파일</a></li>
                             </ul>
@@ -89,7 +98,7 @@ function DetailView(){
                 </tbody>
             </table>
             <div class="btn_area">
-                <button type="button" class="btn bd blue" onClick={goForm}>수정</button>
+                <button type="button" class="btn bd blue" onClick={() => goForm(dataView.num)}>수정</button>
                 <button type="button" class="btn bd red" onClick={goDelete}>삭제</button>
                 <button type="button" class="btn gray" onClick={goTable}>목록</button>
             </div>
@@ -99,17 +108,38 @@ function DetailView(){
                     <col/>
                 </colgroup>
                 <tbody>
-                    <tr>
-                        <th scope="row">이전글<i class="xi-angle-up-thin"></i></th>
-                        <td><a href="javascript:void(0);" onClick={goTable} className="ellipsis">이전글</a></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">다음글<i class="xi-angle-down-thin"></i></th>
-                        <td><a href="javascript:void(0);" onClick={goTable}  className="ellipsis">다음글</a></td>
-                    </tr>
+                    {num !== 1 && <PrevBtn num={num} />}
+                    {num < listSize && <NextBtn num={num} />}
                 </tbody>
             </table>
         </div>
+    )
+}
+
+function PrevBtn({num}){
+    const movePage = useNavigate();
+
+    const goDetailView = (num) => {
+        movePage('/detailView.do?num='+num+'');
+    }
+    return(
+        <tr>
+            <th scope="row">이전글<i class="xi-angle-up-thin"></i></th>
+            <td><a href="javascript:void(0);" onClick={() => goDetailView(num-1)} className="ellipsis">이전글</a></td>
+        </tr>
+    )
+}
+function NextBtn({num}){
+    const movePage = useNavigate();
+
+    const goDetailView = (num) => {
+        movePage('/detailView.do?num='+num+'');
+    }
+    return(
+        <tr>
+            <th scope="row">다음글<i class="xi-angle-down-thin"></i></th>
+            <td><a href="javascript:void(0);" onClick={() => goDetailView(num+1)}  className="ellipsis">다음글</a></td>
+        </tr>
     )
 }
 

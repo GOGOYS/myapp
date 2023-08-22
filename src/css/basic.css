@@ -621,9 +621,10 @@ table .info_txt {margin-top: 3px;}
 .likeit span + span {margin-left: 15px;}
 .likeit label {display: inline-block;width: 75px;height: 75px; padding-top: 42px;border-radius: 100px;font-size: 14px; font-weight:400; color:var(--dark); letter-spacing: -0.03em;text-align: center;cursor: pointer;}
 .likeit .like label:hover, .likeit .dislike label:hover{background-color:#e2e2e2;}
-.likeit input:checked ~ .num {color: #366abe;}
+.likeit .like input:checked ~ .num {color: #be3636;}
+.likeit .dislike input:checked ~ .num {color: #366abe;}
 .likeit .like label {margin-left: 15px;background: #eee url(../images/icon/thumbs_up.svg) no-repeat 50% 30%;}
-.likeit .like input:checked + label {color: #ffffff;background: #366abe url(../images/icon/thumbs_up_on.svg) no-repeat 50% 30%;}
+.likeit .like input:checked + label {color: #ffffff;background: #be3636 url(../images/icon/thumbs_up_on.svg) no-repeat 50% 30%;}
 .likeit .dislike label {margin-right: 15px;background: #eee url(../images/icon/thumbs_down.svg) no-repeat 50% 30%;}
 .likeit .dislike input:checked + label {color: #ffffff;background: #366abe url(../images/icon/thumbs_down_on.svg) no-repeat 50% 30%;}
 

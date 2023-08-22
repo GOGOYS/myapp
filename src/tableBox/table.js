@@ -6,18 +6,36 @@ const width7 = {
     width : "7%"
 }
 const width10 = {
-    width : "7%"
+    width : "10%"
 }
 
-function Table() {
+
+function Content({listData}){
     const movePage = useNavigate();
 
-    function goDetailView(){
-        movePage('/detailView.do');
+    const goDetailView = (num) => {
+        //함수에 인자 넘기기
+        movePage('/detailView.do?num='+num+'');
     }
+    return (
+        <tr onClick={() => goDetailView(listData.num)}>
+            <td>{listData.num}</td>
+            <td className="l"><p className="ellipsis">{listData.title}</p></td>
+            <td><img src={file_zip} alt="zip"/></td>
+            <td>{listData.regDate}</td>
+            <td>78</td>
+        </tr>
+    )
+}
+
+function Table({listData}) {
+    const movePage = useNavigate();
+
     function goForm(){
         movePage('/form.do');
     }
+
+    const listSize = listData.length;
 
     
     return (
@@ -25,7 +43,7 @@ function Table() {
         <h1 className={styles.title}>게시판 연습</h1>
         <div className="tbl_top">
             <div className="tbl_left">
-                <div className="all_num"><i className="xi-paper-o"></i>전체<span className="num">10</span>건</div>
+                <div className="all_num"><i className="xi-paper-o"></i>전체<span className="num">{listSize}</span>건</div>
             </div>
             <div className="tbl_right">
                 <select>
@@ -54,34 +72,9 @@ function Table() {
                 </tr>
             </thead>
             <tbody>
-                <tr onClick={goDetailView}>
-                    <td>공지</td>
-                    <td className="l"><p className="ellipsis">리액트 공부공부</p></td>
-                    <td><img src={file_zip} alt="zip"/></td>
-                    <td>2023.08.20</td>
-                    <td>78</td>
-                </tr>
-                <tr onClick={goDetailView}>
-                    <td>3</td>
-                    <td class="l"><p className="ellipsis">나만의 비밀글~</p><i className="xi-lock"></i></td>               
-                    <td><img src={file_zip} alt="zip"/></td>
-                    <td>2023.08.17</td>
-                    <td>21</td>
-                </tr>
-                <tr onClick={goDetailView}>
-                    <td>2</td>
-                    <td class="l"><p className="ellipsis">리액트란 뭘까 </p></td>               
-                    <td><img src={file_zip} alt="zip"/></td>
-                    <td>2023.08.11</td>
-                    <td>34</td>
-                </tr>
-                <tr onClick={goDetailView}>
-                    <td>1</td>
-                    <td class="l"><p className="ellipsis" style={{color:"red"}}>[긴급] 이동통신사 오류 수정해주세요. </p></td>               
-                    <td><img src={file_zip} alt="zip"/></td>
-                    <td>2023.08.03</td>
-                    <td>1</td>
-                </tr>
+                {
+                    listData.map((listData,index) => (<Content listData={listData} key={index} />)) 
+                }
             </tbody>
         </table>
         <div class="btn_area">
