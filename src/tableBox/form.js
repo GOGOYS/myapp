@@ -72,16 +72,16 @@ function Form({listData}){
                 <tbody>
                     <tr>
                     <th scope="row"><span className="asterisk">*</span>제목</th>
-                    <td><input type="text" id="ipnut_title" style={width100} value={dataView.title}/></td>
+                    <td><input type="text" id="ipnut_title" style={width100} value=""/></td>
                     </tr>
                     <tr>
                     <th scope="row"><span className="asterisk">*</span>내용</th>
-                    <td><textarea rows="5" placeholder="0자 이내" id="input_content">{dataView.content}</textarea></td>
+                    <td><textarea rows="5" placeholder="0자 이내" id="input_content"></textarea></td>
                     </tr>
                     <tr>
                     <th scope="row">첨부파일</th>
                     <td>
-                        <div class="file_wrap">
+                        <div className="file_wrap">
                         <button type="button" className="btn bd blue btn_file"><span className="fa_check">파일선택</span></button>
                         <button type="button" className="btn bd red btn_fileDel"><span className="fa_remove">파일삭제</span></button>
                         <span className="pad_l5">파일은 최대 5개까지 첨부 가능합니다. (개별 용량 10MB)</span>
