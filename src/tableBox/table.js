@@ -32,7 +32,7 @@ function Table({listData}) {
     const movePage = useNavigate();
 
     function goForm(){
-        movePage('/form.do');
+        movePage('/form.do?num=0');
     }
 
     const listSize = listData.length;

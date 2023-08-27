@@ -18,7 +18,15 @@ function Form({listData}){
     const movePage = useNavigate();
     const [searchParams, setSearchParams] = useSearchParams();
     const num = Number(searchParams.get('num'));
-    const dataView = listData[num-1];
+    let dataView = {};
+    if(num === 0){
+        dataView = {
+            title : ''
+            ,content : ''
+        };
+    }else{
+        dataView = listData[num-1];
+    }
 
     function goTables(){
         movePage('/');
@@ -29,7 +37,7 @@ function Form({listData}){
         const inputTitle = document.getElementById('ipnut_title').value;
         const inputContent = document.getElementById('input_content').value;
         if(inputTitle === ''){
-            alert("제목은 필수로 입력되어야 합니다.")
+            alert("제목은 필수로 입력되어야 합니다.");
             document.getElementById('ipnut_title').focus();
             return false;
         }
@@ -51,7 +59,7 @@ function Form({listData}){
             content : inputContent,
             file : ''
         }
-        listData.push(obj);
+        listData.unshift(obj);
         alert('등록되었습니다');
         movePage('/');
     }
@@ -72,17 +80,17 @@ function Form({listData}){
                 <tbody>
                     <tr>
                     <th scope="row"><span className="asterisk">*</span>제목</th>
-                    <td><input type="text" id="ipnut_title" style={width100} value=""/></td>
+                    <td><input type="text" id="ipnut_title" style={width100} defaultValue={dataView.title}/></td>
                     </tr>
                     <tr>
                     <th scope="row"><span className="asterisk">*</span>내용</th>
-                    <td><textarea rows="5" placeholder="0자 이내" id="input_content"></textarea></td>
+                    <td><textarea rows="5" placeholder="0자 이내" id="input_content">{dataView.content}</textarea></td>
                     </tr>
                     <tr>
                     <th scope="row">첨부파일</th>
                     <td>
-                        <div className="file_wrap">
-                        <button type="button" className="btn bd blue btn_file"><span className="fa_check">파일선택</span></button>
+                        <div>
+                        <input type="file" className="btn bd blue btn_file" ></input>
                         <button type="button" className="btn bd red btn_fileDel"><span className="fa_remove">파일삭제</span></button>
                         <span className="pad_l5">파일은 최대 5개까지 첨부 가능합니다. (개별 용량 10MB)</span>
                         <table className="tbl col tbl_file">
@@ -106,12 +114,12 @@ function Form({listData}){
                             <tbody>
                                 <tr>
                                     <td>
-                                        <span class="chk">
-                                        <span class="cbx no_txt"><input type="checkbox" name="file" id="file01"/><label for="file01"></label></span>
+                                        <span className="chk">
+                                        <span className="cbx no_txt"><input type="checkbox" name="file" id="file01"/><label for="file01"></label></span>
                                         </span>
                                     </td>
                                     <td>
-                                        <div class="file_tit">
+                                        <div className="file_tit">
                                             <label for="file1"><span><img src={file_hwp}/></span>첨부파일1</label>
                                         </div>
                                     </td>
@@ -123,16 +131,16 @@ function Form({listData}){
                             </tbody>
                         </table>
                     </div>
-                    <div class="file_dragarea">
-                        <em class="file_txt">마우스로 드래그해서 첨부파일을 추가해 주세요.</em>
+                    <div className="file_dragarea">
+                        <em className="file_txt">마우스로 드래그해서 첨부파일을 추가해 주세요.</em>
                     </div>
                     </td>
                     </tr>
                 </tbody>
                 </table>
-                <div class="btn_area">
-                <button type="button" class="btn blue" onClick={goInsert}>등록</button>
-                <button type="button" class="btn gray" onClick={goTables}>목록</button>
+                <div className="btn_area">
+                <button type="button" className="btn blue" onClick={goInsert}>등록</button>
+                <button type="button" className="btn gray" onClick={goTables}>목록</button>
                 </div>
         </div>
     )

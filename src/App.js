@@ -4,10 +4,12 @@ import { Routes, Route, BrowserRouter } from "react-router-dom";
 import Table from './tableBox/table.js';
 import DetailView from './tableBox/detailView.js';
 import Form from './tableBox/form.js';
+import React, {useEffect }  from 'react';
+import axios from 'axios';
 
 let listData = [
   {
-    num : '1',
+    num : '3',
     title: '리액트 아자아자',
     regId : '고영승',
     regDate : '2023.08.01',
@@ -23,7 +25,7 @@ let listData = [
     file : 'FILE_ID2222222222222'
   },
   {
-    num : '3',
+    num : '1',
     title: '이동통신사 긴급 처리건',
     regId : '이통사',
     regDate : '2023.08.21',
