@@ -81,21 +81,14 @@ function Form({listData}){
             //document.getElementById('ipnut_content').focus();
             return false;
         }
-        const listSize = listData.length;
         const timeElapsed = Date.now();
         const today = new Date(timeElapsed);
         const date = today.toLocaleDateString();
 
-        const obj = {
-            num : (listSize+1),
-            title: inputTitle,
-            regId : '고영승',
-            regDate : date,
-            content : inputContent,
-            file : ''
-        }
-        listData.unshift(obj);
-        alert('등록되었습니다');
+        listData[num-1].title = inputTitle;
+        listData[num-1].content = inputContent;
+        listData[num-1].regDte = date;
+        alert('수정되었습니다');
         movePage('/');
     }
 
