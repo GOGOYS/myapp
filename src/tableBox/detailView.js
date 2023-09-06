@@ -15,7 +15,9 @@ function DetailView({listData}){
 
     const [searchParams, setSearchParams] = useSearchParams();
     const num = Number(searchParams.get('num'));
+    console.log(num)
     const dataView = listData[num-1];
+    console.log(dataView)
     const movePage = useNavigate();
 
     const listSize = listData.length;
@@ -31,8 +33,8 @@ function DetailView({listData}){
         }
     }
 
-    const goForm = (num) => {
-        movePage('/form.do?num='+num+'');
+    const goForm = (type) => {
+        movePage('/form.do?num='+num+'&type='+type+'');
     }
 
     const [countY, setCountY] = useState(0);
@@ -47,12 +49,12 @@ function DetailView({listData}){
     }
     return(
         <div>
-            <ul class="view_top">
+            <ul className="view_top">
                 <li><a href="javascript:void(0);" className="i_share">공유</a></li>
                 <li><a href="javascript:void(0);" className="i_print">인쇄</a></li>
                 <li><a href="javascript:void(0);" className="i_siren">신고</a></li>
             </ul>
-            <table class="tbl row board">	
+            <table className="tbl row board">	
                 <colgroup>
                     <col style={width20}/>
                     <col style={width30}/>
@@ -62,7 +64,7 @@ function DetailView({listData}){
                 <tbody>
                     <tr>
                         <th scope="row">제목</th>
-                        <td colspan="3">{dataView.title}</td>
+                        <td colSpan="3">{dataView.title}</td>
                     </tr>
                     <tr>
                         <th scope="row">작성자</th>
@@ -71,7 +73,7 @@ function DetailView({listData}){
                         <td>{dataView.regDate}</td>
                     </tr>
                     <tr>
-                        <td colspan="4">
+                        <td colSpan="4">
                             <br/>
                             {dataView.content}
                             <div className="likeit">
@@ -88,7 +90,7 @@ function DetailView({listData}){
                     </tr>
                     <tr>
                         <th scope="row">첨부파일</th>
-                        <td colspan="3">
+                        <td colSpan="3">
                             <ul className="file_li">
                                 <li><a href="javascript:void(0);"><img src={file_img} alt=""/>첨부파일</a></li>
                                 <li><a href="javascript:void(0);"><img src={file_img} alt=""/>첨부파일</a></li>
@@ -97,12 +99,12 @@ function DetailView({listData}){
                     </tr>
                 </tbody>
             </table>
-            <div class="btn_area">
-                <button type="button" class="btn bd blue" onClick={() => goForm(dataView.num)}>수정</button>
-                <button type="button" class="btn bd red" onClick={goDelete}>삭제</button>
-                <button type="button" class="btn gray" onClick={goTable}>목록</button>
+            <div className="btn_area">
+                <button type="button" className="btn bd blue" onClick={() => goForm('update')}>수정</button>
+                <button type="button" className="btn bd red" onClick={goDelete}>삭제</button>
+                <button type="button" className="btn gray" onClick={goTable}>목록</button>
             </div>
-            <table class="tbl row board oth_post">
+            <table className="tbl row board oth_post">
                 <colgroup>
                     <col style={width20}/>
                     <col/>
@@ -124,7 +126,7 @@ function PrevBtn({num}){
     }
     return(
         <tr>
-            <th scope="row">이전글<i class="xi-angle-up-thin"></i></th>
+            <th scope="row">이전글<i className="xi-angle-up-thin"></i></th>
             <td><a href="javascript:void(0);" onClick={() => goDetailView(num-1)} className="ellipsis">이전글</a></td>
         </tr>
     )
@@ -132,12 +134,12 @@ function PrevBtn({num}){
 function NextBtn({num}){
     const movePage = useNavigate();
 
-    const goDetailView = (num) => {
+    const goDetailView = (num, type) => {
         movePage('/detailView.do?num='+num+'');
     }
     return(
         <tr>
-            <th scope="row">다음글<i class="xi-angle-down-thin"></i></th>
+            <th scope="row">다음글<i className="xi-angle-down-thin"></i></th>
             <td><a href="javascript:void(0);" onClick={() => goDetailView(num+1)}  className="ellipsis">다음글</a></td>
         </tr>
     )

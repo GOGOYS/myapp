@@ -15,24 +15,59 @@ const width100 = {
     width : "100%"
 }
 function Form({listData}){
+    console.log(listData)
     const movePage = useNavigate();
     const [searchParams, setSearchParams] = useSearchParams();
     const num = Number(searchParams.get('num'));
-    let dataView = {};
-    if(num === 0){
+    const type = Number(searchParams.get('type'));
+    let dataView = listData[num-1];
+    console.log(dataView)
+    if(dataView == null){
         dataView = {
             title : ''
             ,content : ''
         };
-    }else{
-        dataView = listData[num-1];
     }
+    
 
     function goTables(){
         movePage('/');
     }
 
     function goInsert(){
+
+        const inputTitle = document.getElementById('ipnut_title').value;
+        const inputContent = document.getElementById('input_content').value;
+        if(inputTitle === ''){
+            alert("제목은 필수로 입력되어야 합니다.");
+            document.getElementById('ipnut_title').focus();
+            return false;
+        }
+        if(inputContent === ''){
+            alert("내용은 필수로 입력되어야 합니다.");
+            //document.getElementById('ipnut_content').focus();
+            return false;
+        }
+        const listSize = listData.length;
+        const timeElapsed = Date.now();
+        const today = new Date(timeElapsed);
+        const date = today.toLocaleDateString();
+
+        const obj = {
+            num : (listSize+1),
+            title: inputTitle,
+            regId : '고영승',
+            regDate : date,
+            content : inputContent,
+            file : ''
+        }
+        listData.unshift(obj);
+        alert('등록되었습니다');
+        movePage('/');
+    }
+
+
+    function goUpdate(){
 
         const inputTitle = document.getElementById('ipnut_title').value;
         const inputContent = document.getElementById('input_content').value;
@@ -126,7 +161,7 @@ function Form({listData}){
                                     <td>4.43MB</td>
                                 </tr>
                                 <tr>
-                                    <td colspan="3"> 첨부파일이 없습니다.</td>
+                                    <td colSpan="3"> 첨부파일이 없습니다.</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -139,7 +174,11 @@ function Form({listData}){
                 </tbody>
                 </table>
                 <div className="btn_area">
-                <button type="button" className="btn blue" onClick={goInsert}>등록</button>
+                    { type === 'update' ? ( 
+                        <button type="button" className="btn blue" onClick={goUpdate}>수정</button>
+                        ) : (
+                        <button type="button" className="btn blue" onClick={goInsert}>등록</button>
+                    )}
                 <button type="button" className="btn gray" onClick={goTables}>목록</button>
                 </div>
         </div>

@@ -34,7 +34,7 @@ function Table({listData}) {
     function goForm(){
         movePage('/form.do?num=0');
     }
-
+    console.log(listData);
     const listSize = listData.length;
 
     
@@ -77,8 +77,8 @@ function Table({listData}) {
                 }
             </tbody>
         </table>
-        <div class="btn_area">
-            <button type="button" class="btn blue" onClick={goForm}>등록</button>
+        <div className="btn_area">
+            <button type="button" className="btn blue" onClick={goForm}>등록</button>
         </div>
     </div>
     )

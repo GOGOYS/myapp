@@ -4,44 +4,45 @@ import { Routes, Route, BrowserRouter } from "react-router-dom";
 import Table from './tableBox/table.js';
 import DetailView from './tableBox/detailView.js';
 import Form from './tableBox/form.js';
-import React, {useEffect }  from 'react';
+import React, {useState, useEffect }  from 'react';
 import axios from 'axios';
 
-let listData = [
-  {
-    num : '3',
-    title: '리액트 아자아자',
-    regId : '고영승',
-    regDate : '2023.08.01',
-    content : '리액트트트트트트트트트트트틑트트트트트트트트트트트트틑트트트트트트트트트트트트틑트',
-    file : 'FILE_ID1111111111111'
-  },
-  { 
-    num : '2',
-    title: '오픈노트 리액트 스터디',
-    regId : '오픈노트',
-    regDate : '2023.08.05',
-    content : '스터디',
-    file : 'FILE_ID2222222222222'
-  },
-  {
-    num : '1',
-    title: '이동통신사 긴급 처리건',
-    regId : '이통사',
-    regDate : '2023.08.21',
-    content : '긴급오류 수정해주세요',
-    file : ''
-  }
-];
-
 function App() {
+  const [datas, setDatas] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        // 요청이 시작 할 때에는 error 와 users 를 초기화하고
+      setError(null);
+      // loading 상태를 true 로 바꿉니다.
+      setLoading(true);
+        setDatas(null);
+        const response = await axios.get(
+          'http://localhost:3001/opennote'
+        );
+        setDatas(response.data); // 데이터는 response.data 안에 들어있습니다.
+      } catch (e) {
+        setError(e);
+      }
+      setLoading(false);
+    };
+
+    fetchUsers();
+  }, []);
+
+  if (loading) return <div>로딩중..</div>;
+  if (error) return <div>에러가 발생했습니다</div>;
+if(datas)
   return (
   <div className={styles.tableBox}>
     <BrowserRouter>
       <Routes>
-        <Route exact path={"/"} element={<Table listData={listData}/>}></Route>
-        <Route path={"/detailView.do"} element={<DetailView listData={listData}/>}></Route>
-        <Route path={"/form.do"} element={<Form listData={listData}/>}></Route>
+        <Route exact path={"/"} element={<Table listData={datas}/>}></Route>
+        <Route path={"/detailView.do"} element={<DetailView listData={datas}/>}></Route>
+        <Route path={"/form.do"} element={<Form listData={datas}/>}></Route>
       </Routes>
     </BrowserRouter>
   </div>
