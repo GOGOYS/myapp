@@ -21,7 +21,7 @@ function App() {
       setLoading(true);
         setDatas(null);
         const response = await axios.get(
-          'http://localhost:3001/opennote'
+          '/api/test'
         );
         setDatas(response.data); // 데이터는 response.data 안에 들어있습니다.
       } catch (e) {
